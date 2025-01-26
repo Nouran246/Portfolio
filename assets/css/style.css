@@ -5,8 +5,8 @@
     --color-heading: #eef3db;
     --color-base: #033f47;
     --color-base2: #022a30;
-    --color-brand: #e0f780;
-    --color-brand2: #deff58;
+    --color-brand: #b497a8;
+    --color-brand2: #e62a9b;
     --sidbar-width: 240px;
     --font-base: "Bai Jamjuree";
 }
@@ -199,3 +199,55 @@ img {
     border-radius: 100px;
     font-size: 24px;
 }
+
+/* CARD */
+.card-custom {
+    width: 100%;
+    height: 500px;    /* Uniform height for all cards */
+    background-color: var(--color-base);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* IMAGE/VIDEO CONTAINER */
+.card-custom .card-custom-image {
+    width: 100%;
+    height: 60%; /* Consistent height for image/video across all cards */
+    position: relative;
+    overflow: hidden; /* Ensures no overflow beyond the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* IMAGE/VIDEO STYLE */
+.card-custom .card-custom-image img,
+.card-custom .card-custom-image video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the media covers the area without distortion */
+}
+
+/* CONTENT SECTION */
+.card-custom .card-custom-content {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.card-custom-content h4 {
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+}
+
+.card-custom-content p {
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    color: var(--color-body);
+}
+
