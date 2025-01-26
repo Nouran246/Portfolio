@@ -6,7 +6,7 @@
     --color-base: #033f47;
     --color-base2: #022a30;
     --color-brand: #b497a8;
-    --color-brand2: #e62a9b;
+    --color-brand2: #b497a8;
     --sidbar-width: 240px;
     --font-base: "Bai Jamjuree";
 }
@@ -185,9 +185,7 @@ img {
 }
 
 /* SOCIAL ICONS */
-.social-icons {
 
-}
 
 .social-icons a {
     width: 40px;
