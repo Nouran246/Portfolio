@@ -1,695 +1,779 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nouran Hassan</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/css/aos.css">
-    <link rel="stylesheet" href="./assets/css/line-awesome.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nouran Hassan — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #12090c;
+  --bg2:   #1a0f0a;
+  --bg3:   #241408;
+  --bg4:   #2e1a0e;
+  --gold:  #d4a843;
+  --gold2: #ecc96a;
+  --gold3: #f7e0a0;
+  --amber: #e08030;
+  --text:  #f5ece0;
+  --soft:  #c9bba8;
+  --muted: #8a7560;
+  --border:  rgba(212,168,67,0.22);
+  --border2: rgba(255,220,150,0.08);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'DM Sans', sans-serif;
+  --mono:  'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 18px; }
+
+/* FIX: body has ONLY a solid background color — no background-image.
+   The hero section gets its own decorative gradients via pseudo-elements
+   so they stay contained and don't bleed through other sections. */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.75;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cursor      { position:fixed; width:10px; height:10px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+.cursor-ring { position:fixed; width:38px; height:38px; border:1px solid rgba(212,168,67,0.55); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:all 0.18s ease; }
+
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:linear-gradient(var(--gold),var(--amber)); border-radius:2px; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:500; padding:1.4rem 4.5rem; display:flex; justify-content:space-between; align-items:center; background:rgba(18,9,12,0.92); backdrop-filter:blur(24px); border-bottom:1px solid var(--border2); }
+.nav-logo { font-family:var(--serif); font-size:1.35rem; font-weight:300; color:var(--gold2); text-decoration:none; letter-spacing:0.05em; }
+.nav-logo span { font-style:italic; }
+.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links a { font-family:var(--mono); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--soft); text-decoration:none; transition:color 0.3s; position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:1px; background:var(--gold); transition:width 0.3s; }
+.nav-links a:hover { color:var(--gold2); }
+.nav-links a:hover::after { width:100%; }
+.nav-cta { font-family:var(--mono); font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.6rem 1.5rem; border:1px solid var(--border); color:var(--gold); text-decoration:none; transition:all 0.3s; }
+.nav-cta:hover { background:var(--gold); color:var(--bg); }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; z-index:600; }
+.hamburger span { width:22px; height:1px; background:var(--text); display:block; transition:0.3s; }
+
+/* ─── HERO ─────────────────────────────────────────────── */
+#home {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: start;
+  padding: 9rem 4.5rem 5rem;
+  gap: 4rem;
+  position: relative;
+  overflow: hidden;
+  /* FIX: hero's own background color so it's fully opaque */
+  background: var(--bg);
+}
+/* Decorative glows live INSIDE hero only via pseudo-element */
+#home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(212,168,67,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(180,90,20,0.06) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-left { position:relative; z-index:2; padding-top:2rem; }
+.hero-tag { display:inline-flex; align-items:center; gap:0.6rem; font-family:var(--mono); font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); border:1px solid var(--border); padding:0.45rem 1.1rem; margin-bottom:2rem; opacity:0; animation:fadeUp 0.7s 0.2s forwards; }
+.hero-tag::before { content:''; width:7px; height:7px; border-radius:50%; background:#5cb85c; animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.hero-name { font-family:var(--serif); font-size:clamp(3rem,5.5vw,6rem); font-weight:300; line-height:1.02; letter-spacing:-0.02em; margin-bottom:0.5rem; opacity:0; animation:fadeUp 0.8s 0.35s forwards; }
+.hero-name .grad { font-style:italic; background:linear-gradient(130deg, var(--gold2) 0%, var(--gold3) 50%, var(--amber) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-role { font-family:var(--serif); font-size:clamp(1rem,1.6vw,1.4rem); font-weight:300; font-style:italic; color:var(--soft); margin-bottom:2rem; opacity:0; animation:fadeUp 0.8s 0.5s forwards; }
+.hero-desc { font-size:1rem; color:var(--soft); max-width:510px; line-height:1.95; margin-bottom:2.8rem; opacity:0; animation:fadeUp 0.8s 0.65s forwards; }
+.hero-desc strong { color:var(--gold2); font-weight:500; }
+.hero-actions { display:flex; gap:1.2rem; flex-wrap:wrap; opacity:0; animation:fadeUp 0.8s 0.8s forwards; }
+.btn-gold { font-family:var(--mono); font-size:0.75rem; letter-spacing:0.14em; text-transform:uppercase; padding:1rem 2.3rem; background:linear-gradient(135deg,var(--gold),var(--amber)); color:var(--bg); text-decoration:none; font-weight:500; transition:all 0.3s; position:relative; overflow:hidden; }
+.btn-gold::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--gold3),var(--gold2)); opacity:0; transition:opacity 0.3s; }
+.btn-gold:hover::after { opacity:1; }
+.btn-gold span { position:relative; z-index:1; }
+.btn-outline { font-family:var(--mono); font-size:0.75rem; letter-spacing:0.14em; text-transform:uppercase; padding:1rem 2.3rem; border:1px solid var(--border); color:var(--soft); text-decoration:none; transition:all 0.3s; }
+.btn-outline:hover { border-color:var(--gold2); color:var(--gold2); }
+.hero-metrics { display:flex; gap:2rem; flex-wrap:wrap; margin-top:3rem; padding-top:2.5rem; border-top:1px solid var(--border2); opacity:0; animation:fadeUp 0.8s 1s forwards; }
+.metric-val   { font-family:var(--serif); font-size:2.2rem; font-weight:300; color:var(--gold2); line-height:1; }
+.metric-label { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-top:0.3rem; }
+
+/* ─── HERO RIGHT — new clean identity card ─────────────── */
+.hero-right { position:relative; z-index:2; opacity:0; animation:fadeUp 0.9s 0.6s forwards; display:flex; flex-direction:column; gap:1.2rem; }
+
+/* NEW DESIGN: clean dark identity card — no cramped monogram */
+.hero-id-card {
+  width: 100%;
+  border: 1px solid rgba(212,168,67,0.2);
+  background: #16090a;
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 2.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Thin gold corner accents */
+.hero-id-card::before {
+  content: '';
+  position: absolute;
+  top: 16px; left: 16px;
+  width: 50px; height: 50px;
+  border-top: 1px solid rgba(212,168,67,0.5);
+  border-left: 1px solid rgba(212,168,67,0.5);
+}
+.hero-id-card::after {
+  content: '';
+  position: absolute;
+  bottom: 16px; right: 16px;
+  width: 50px; height: 50px;
+  border-bottom: 1px solid rgba(212,168,67,0.5);
+  border-right: 1px solid rgba(212,168,67,0.5);
+}
+
+/* Subtle canvas still runs behind */
+canvas#heroCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.id-inner { position: relative; z-index: 2; }
+
+/* Gold overline */
+.id-overline {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.id-overline::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+/* Big serif initials — the visual anchor */
+.id-initials {
+  font-family: var(--serif);
+  font-size: 5.5rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: linear-gradient(160deg, var(--gold3) 0%, var(--gold2) 45%, rgba(212,168,67,0.5) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.6rem;
+}
+
+/* Divider */
+.id-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(212,168,67,0.35), transparent);
+  margin-bottom: 1.6rem;
+}
+
+/* Full name */
+.id-name {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.01em;
+}
+
+/* Role line */
+.id-role {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.75;
+  margin-bottom: 2rem;
+}
+
+/* Three clean stat rows */
+.id-stats { display: flex; flex-direction: column; gap: 0; }
+.id-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border2);
+}
+.id-stat:last-child { border-bottom: 1px solid var(--border2); }
+.id-stat-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.id-stat-val {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--gold2);
+  font-weight: 300;
+}
+
+.hero-cards { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border2); width:100%; }
+.hcard { background:var(--bg2); padding:1.2rem 1.4rem; }
+.hcard-val   { font-family:var(--serif); font-size:1.7rem; font-weight:300; color:var(--gold2); }
+.hcard-label { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:0.1rem; }
+
+/* ─── SHARED SECTION ─────────────────────────────────── */
+/* FIX: every section is position:relative with explicit solid background
+   so the body's gradient never shows through */
+section {
+  padding: 8rem 4.5rem;
+  position: relative;
+  isolation: isolate;   /* creates stacking context — locks bg inside */
+}
+
+#about      { background: var(--bg2); }
+#experience { background: var(--bg); }
+#projects   { background: var(--bg2); }
+#research   { background: var(--bg); }
+#education  { background: var(--bg2); }
+#contact    { background: var(--bg); }
+
+.sec-head  { display:flex; align-items:center; gap:1.5rem; margin-bottom:4.5rem; flex-wrap:wrap; }
+.sec-num   { font-family:var(--mono); font-size:0.7rem; color:var(--gold); letter-spacing:0.12em; white-space:nowrap; }
+.sec-title { font-family:var(--serif); font-size:clamp(2rem,4vw,3.8rem); font-weight:300; letter-spacing:-0.02em; line-height:1.1; }
+.sec-line  { flex:1; min-width:2rem; height:1px; background:linear-gradient(to right, var(--border), transparent); }
+.sec-sub   { font-family:var(--serif); font-size:1.1rem; font-style:italic; color:var(--soft); max-width:620px; margin-top:-2.5rem; margin-bottom:4rem; line-height:1.8; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+.reveal { opacity:0; transform:translateY(40px); transition:opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.d1{transition-delay:0.1s;} .d2{transition-delay:0.2s;} .d3{transition-delay:0.3s;}
+
+/* ─── ABOUT ─────────────────────────────────────────── */
+.about-wrap { display:grid; grid-template-columns:1.1fr 0.9fr; gap:5rem; align-items:start; }
+.about-text p { font-size:1rem; color:var(--soft); line-height:1.95; margin-bottom:1.4rem; }
+.about-text strong { color:var(--gold2); font-weight:500; }
+.highlight-box { border-left:2px solid var(--gold); padding:1.3rem 1.6rem; margin:2rem 0; background:rgba(212,168,67,0.05); }
+.highlight-box p { margin:0; font-family:var(--serif); font-size:1.15rem; font-style:italic; color:var(--text); line-height:1.7; }
+.lang-row  { display:flex; gap:0.8rem; margin-top:1.5rem; flex-wrap:wrap; }
+.lang-badge { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.5rem 1.1rem; border:1px solid var(--border); color:var(--soft); }
+.lang-badge.native { border-color:var(--gold); color:var(--gold); }
+.skills-wrap { display:flex; flex-direction:column; gap:2rem; }
+.skill-group-title { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:0.8rem; }
+.skill-pills { display:flex; flex-wrap:wrap; gap:0.5rem; }
+.pill { font-size:0.85rem; font-family:var(--sans); font-weight:400; padding:0.4rem 0.95rem; background:var(--bg3); border:1px solid var(--border2); color:var(--soft); border-radius:2px; transition:all 0.3s; }
+.pill:hover { background:rgba(212,168,67,0.1); border-color:var(--border); color:var(--text); }
+
+/* ─── EXPERIENCE ─────────────────────────────────────── */
+.exp-layout { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
+.exp-col-title { font-family:var(--serif); font-size:1.5rem; font-style:italic; color:var(--gold2); margin-bottom:2.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border2); }
+.exp-card { padding:2rem 0; border-bottom:1px solid var(--border2); }
+.exp-card:last-child { border-bottom:none; }
+.exp-role  { font-family:var(--serif); font-size:1.3rem; font-weight:400; margin-bottom:0.35rem; color:var(--text); }
+.exp-where { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+.exp-body  { font-size:0.95rem; color:var(--soft); line-height:1.9; }
+.exp-badges { margin-top:1rem; display:flex; flex-wrap:wrap; gap:0.5rem; }
+.exp-badge { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.28rem 0.7rem; border:1px solid rgba(212,168,67,0.3); color:var(--gold); }
+
+/* ─── PROJECTS ─────────────────────────────────────── */
+.proj-featured { display:grid; grid-template-columns:1.4fr 1fr; gap:2px; background:var(--border2); margin-bottom:2px; }
+.proj-row      { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--border2); margin-bottom:2px; }
+.proj-row2     { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--border2); }
+.proj { background:var(--bg2); overflow:hidden; position:relative; transition:background 0.35s; }
+.proj:hover { background:var(--bg3); }
+.proj-media { width:100%; aspect-ratio:16/9; overflow:hidden; position:relative; background:var(--bg3); }
+.proj-media img,.proj-media video { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.6s ease; filter:brightness(0.82) saturate(0.85); }
+.proj:hover .proj-media img,.proj:hover .proj-media video { transform:scale(1.05); filter:brightness(0.95) saturate(1); }
+.proj-media-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(15,15,15,0.75) 0%, transparent 55%); }
+.proj-body { padding:1.8rem 2rem; }
+.proj-num   { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.14em; color:var(--gold); display:block; margin-bottom:0.5rem; }
+.proj-award { display:inline-flex; align-items:center; gap:0.4rem; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); border:1px solid var(--border); padding:0.25rem 0.65rem; margin-bottom:0.8rem; }
+.proj-name  { font-family:var(--serif); font-size:1.3rem; font-weight:400; line-height:1.25; margin-bottom:0.9rem; color:var(--text); }
+.proj.featured .proj-name { font-size:1.7rem; }
+.proj-desc  { font-size:0.93rem; color:var(--soft); line-height:1.85; margin-bottom:1.2rem; }
+.proj-tags  { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.2rem; }
+.proj-tag   { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.22rem 0.6rem; border:1px solid var(--border2); color:var(--muted); }
+.proj-link  { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem; transition:color 0.3s; }
+.proj-link:hover { color:var(--gold2); }
+.proj-link::after { content:'↗'; }
+
+/* ─── RESEARCH ───────────────────────────────────────── */
+.research-card { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; border:1px solid var(--border2); padding:4rem; position:relative; overflow:hidden; transition:border-color 0.4s; }
+.research-card:hover { border-color:var(--border); }
+.research-card::before { content:'IEEE'; position:absolute; right:-1rem; top:50%; transform:translateY(-50%); font-family:var(--serif); font-size:9rem; font-weight:300; color:rgba(212,168,67,0.05); line-height:1; pointer-events:none; }
+.research-label { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+.research-title { font-family:var(--serif); font-size:clamp(1.6rem,2.8vw,2.4rem); font-weight:300; line-height:1.2; margin-bottom:1.5rem; }
+.research-body  { font-size:0.97rem; color:var(--soft); line-height:1.9; }
+.research-metrics { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.rm { border:1px solid var(--border2); padding:1.4rem; transition:all 0.3s; }
+.rm:hover { border-color:var(--border); background:var(--bg3); }
+.rm-val   { font-family:var(--serif); font-size:2.4rem; font-weight:300; color:var(--gold2); line-height:1; margin-bottom:0.4rem; }
+.rm-label { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+
+/* ─── EDUCATION ─────────────────────────────────────── */
+.edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:5rem; }
+.edu-card { border:1px solid var(--border2); padding:2.8rem; position:relative; overflow:hidden; transition:all 0.3s; }
+.edu-card:hover { border-color:var(--border); background:var(--bg3); }
+.edu-school { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:0.6rem; }
+.edu-degree { font-family:var(--serif); font-size:1.55rem; font-weight:400; line-height:1.25; margin-bottom:0.3rem; }
+.edu-minor  { font-family:var(--serif); font-size:1rem; font-style:italic; color:var(--gold2); margin-bottom:0.5rem; }
+.edu-year   { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.08em; color:var(--muted); margin-bottom:1.2rem; }
+.edu-detail { font-size:0.93rem; color:var(--soft); line-height:1.9; }
+.edu-watermark { position:absolute; bottom:-10px; right:0; font-family:var(--serif); font-size:7rem; font-weight:300; color:rgba(212,168,67,0.05); pointer-events:none; }
+.certs-title { font-family:var(--serif); font-size:2rem; font-weight:300; font-style:italic; color:var(--text); margin-bottom:2rem; }
+.certs-grid  { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1px; background:var(--border2); }
+.cert { background:var(--bg2); padding:1.8rem; text-decoration:none; display:block; transition:background 0.3s; }
+.cert:hover { background:var(--bg4); }
+.cert-org  { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:0.7rem; }
+.cert-name { font-family:var(--serif); font-size:1rem; font-weight:400; color:var(--text); line-height:1.35; margin-bottom:0.5rem; }
+.cert-date { font-family:var(--mono); font-size:0.62rem; color:var(--muted); }
+
+/* ─── CONTACT ─────────────────────────────────────── */
+.contact-bg { position:absolute; inset:0; background:radial-gradient(ellipse at 80% 50%, rgba(212,168,67,0.04) 0%, transparent 65%); pointer-events:none; z-index:0; }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:8rem; align-items:start; position:relative; z-index:1; }
+.contact-left .big { font-family:var(--serif); font-size:clamp(2.4rem,5vw,4.6rem); font-weight:300; line-height:1.1; letter-spacing:-0.02em; margin-bottom:2rem; }
+.contact-left .big em { font-style:italic; background:linear-gradient(135deg,var(--gold2),var(--amber)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.contact-left p { font-size:1rem; color:var(--soft); line-height:2; max-width:420px; margin-bottom:2.5rem; }
+.availability { display:inline-flex; align-items:center; gap:0.6rem; font-family:var(--mono); font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); border:1px solid var(--border); padding:0.55rem 1.3rem; }
+.availability::before { content:''; width:7px; height:7px; border-radius:50%; background:#5cb85c; animation:blink 2s infinite; }
+.contact-right { display:flex; flex-direction:column; gap:1px; background:var(--border2); }
+.clink { display:flex; justify-content:space-between; align-items:center; padding:1.8rem 2rem; background:var(--bg); text-decoration:none; transition:all 0.3s; }
+.clink:hover { background:var(--bg3); padding-left:2.6rem; }
+.clink-lbl { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem; }
+.clink-val { font-family:var(--serif); font-size:1.1rem; color:var(--text); transition:color 0.3s; }
+.clink:hover .clink-val { color:var(--gold2); }
+.clink-arr { color:var(--muted); font-size:1.2rem; transition:all 0.3s; }
+.clink:hover .clink-arr { color:var(--gold); transform:translate(4px,-4px); }
+
+footer { padding:2rem 4.5rem; border-top:1px solid var(--border2); display:flex; justify-content:space-between; align-items:center; background:var(--bg); }
+footer p { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.08em; color:var(--muted); }
+footer span { color:var(--gold); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width:1100px) {
+  .certs-grid { grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); }
+  .research-card { gap:3rem; padding:3rem; }
+}
+@media (max-width:960px) {
+  nav { padding:1.2rem 1.5rem; }
+  .nav-links { display:none; position:fixed; inset:0; background:var(--bg); flex-direction:column; justify-content:center; align-items:center; gap:2.5rem; z-index:550; }
+  .nav-links.open { display:flex; }
+  .nav-cta { display:none; }
+  .hamburger { display:flex; }
+  section { padding:5rem 1.5rem; }
+  #home { grid-template-columns:1fr; padding:7rem 1.5rem 4rem; gap:3rem; }
+  .hero-right { order:-1; }
+  .id-initials { font-size:4rem; }
+  .about-wrap,.exp-layout,.edu-grid,.contact-grid,.research-card { grid-template-columns:1fr; gap:3rem; }
+  .proj-featured,.proj-row,.proj-row2 { grid-template-columns:1fr; }
+  .certs-grid { grid-template-columns:repeat(2,1fr); }
+  .hero-metrics { flex-wrap:wrap; gap:1.5rem; }
+  .research-metrics { grid-template-columns:1fr 1fr; }
+  .contact-grid { gap:3rem; }
+}
+@media (max-width:500px) {
+  .hero-cards { grid-template-columns:1fr 1fr; }
+  .id-initials { font-size:3.2rem; }
+}
+</style>
 </head>
+<body>
 
-<body data-bs-spy="scroll" data-bs-target=".navbar">
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cring"></div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container flex-lg-column">
-            <a class="navbar-brand mx-lg-auto mb-lg-4" href="#">
-                <span class="h3 fw-bold d-block d-lg-none">Nouran Hassan</span>
-                <img src="./assets/images/person1.png" class="d-none d-lg-block rounded-circle" alt="">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto flex-lg-column text-lg-center">
+<nav>
+  <a href="#home" class="nav-logo">Nouran <span>Hassan</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:nouran.hassan.hafez@gmail.com" class="nav-cta">Hire Me</a>
+  <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+</nav>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#work">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Experience and Volunteering</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#reviews">Education</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#blog">Certificates</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- //NAVBAR -->
-
-    <!-- CONTENT WRAPPER -->
-    <div id="content-wrapper">
-
-        <!-- HOME -->
-        <section id="home" class="full-height px-lg-5">
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <h1 class="display-4 fw-bold" data-aos="fade-up">I'M  <span class="text-brand">Nouran Hassan Ahmed</span></h1>
-                        <p class="lead mt-2 mb-4" data-aos="fade-up" data-aos-delay="300">
-                           
-                            I’m a passionate Computer Science student with a minor in Artificial Intelligence. I also possess the skills to work in software and web development. I enjoy crafting innovative solutions and seamless user experiences using cutting-edge technologies.                        </p>
-                        <div data-aos="fade-up" data-aos-delay="600">
-                            <a href="#work" class="btn btn-brand me-3">Explore My Work</a>
-                            <a href="mailto:nouran.hassan.hafez@gmail.com" class="link-custom me-3">Email Me</a>
-                            <a href="https://github.com/Nouran246" target="_blank" class="link-custom me-3">GitHub</a>
-                            <a href="https://www.linkedin.com/in/nouran-hafez-907311283/" target="_blank" class="link-custom me-3">LinkedIn</a>
-                            <a href="https://drive.google.com/file/d/1nFJuFF7PGf2fl__rG_kJK3jsLrD2ik2f/view?usp=sharing" download class="link-custom">Download CV</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            
-
-        </section>
-        <!-- //HOME -->
-
-        <!-- SERVICES -->
-        <section id="services" class="full-height px-lg-5">
-            <div class="container">
-        
-                <div class="row pb-4" data-aos="fade-up">
-                    <div class="col-lg-8">
-                        <h6 class="text-brand">SERVICES</h6>
-                        <h1>Services That I Provide</h1>
-                    </div>
-                </div>
-        
-                <div class="row gy-4">
-        
-                    <!-- AI Service -->
-                    <div class="col-md-4" data-aos="fade-up">
-                        <div class="service p-4 bg-base rounded-4 shadow-effect">
-                            <div class="iconbox rounded-4">
-                                <i class="las la-brain"></i>
-                            </div>
-                            <h5 class="mt-4 mb-2">Artificial Intelligence</h5>
-                            <p>I build AI-driven solutions, including machine learning models and AI algorithms, to solve complex problems and improve decision-making processes.</p>
-                            <a href="#" class="link-custom">Read More</a>
-                        </div>
-                    </div>
-        
-                    <!-- Software Development Service -->
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="service p-4 bg-base rounded-4 shadow-effect">
-                            <div class="iconbox rounded-4">
-                                <i class="las la-laptop-code"></i>
-                            </div>
-                            <h5 class="mt-4 mb-2">Software Development</h5>
-                            <p>From desktop applications to system software, I develop efficient, reliable, and scalable software solutions tailored to meet your specific needs.</p>
-                            <a href="#" class="link-custom">Read More</a>
-                        </div>
-                    </div>
-        
-                    <!-- Web Development Service -->
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
-                        <div class="service p-4 bg-base rounded-4 shadow-effect">
-                            <div class="iconbox rounded-4">
-                                <i class="las la-code"></i>
-                            </div>
-                            <h5 class="mt-4 mb-2">Web Development</h5>
-                            <p>I specialize in creating responsive, interactive websites and web applications with seamless user experiences using modern technologies.</p>
-                            <a href="#" class="link-custom">Read More</a>
-                        </div>
-                    </div>
-        
-                </div>
-        
-            </div>
-        </section>
-        
-        <!-- SERVICES -->
-
-        <!-- WORK -->
-        <section id="work" class="full-height px-lg-5">
-            <div class="container">
-        
-                <div class="row pb-4" data-aos="fade-up">
-                    <div class="col-lg-8">
-                        <h6 class="text-brand">MY PROJECTS</h6>
-                        <h1>Projects I've Worked On</h1>
-                    </div>
-                </div>
-        
-                <div class="row gy-4">
-        
-                  
-                    <!-- SoundSpot Music Web Application -->
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <video class="video-card" autoplay muted loop>
-                                    <source src="./assets/images/1.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>SoundSpot Music Web Application</h4>
-                                <p>A music hub platform with features like playlists, music trends, and user profiles, inspired by Spotify. Includes chatbot integration (Secured 3rd place for the Best Web Development Project at university).</p>
-                                <a href="https://github.com/Nouran246/SoundSpot-Music-Web-Application" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <!-- MegaMinds Course Recommendation System -->
-<!-- MegaMinds Course Recommendation System -->
-<div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-    <div class="card-custom rounded-4 bg-base shadow-effect">
-        <div class="card-custom-image rounded-4">
-            <video class="video-card" autoplay muted loop>
-                <source src="./assets/images/vid.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="card-custom-content p-4">
-            <h4>MegaMinds Course Recommendation System</h4>
-            <p>A course recommendation system that suggests relevant programs to students based on their interests and academic performance.</p>
-            <a href="https://github.com/Nouran246/MegaMinds-Course-Recommendation-System" class="link-custom" target="_blank">Read More</a>
-        </div>
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left">
+    <div class="hero-tag">Available for hire · Cairo, Egypt</div>
+    <h1 class="hero-name">Nouran<br><span class="grad">Hassan Hafez</span></h1>
+    <p class="hero-role">AI Engineer · Software Developer · IEEE Researcher</p>
+    <p class="hero-desc">I build <strong>intelligent systems that ship</strong> — from Ministry-funded medical AI to globally-recognised ML models. Final-year CS student turning research into real-world impact.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-gold"><span>See My Work</span></a>
+      <a href="https://drive.google.com/file/d/1nFJuFF7PGf2fl__rG_kJK3jsLrD2ik2f/view?usp=sharing" target="_blank" class="btn-outline">Download CV</a>
     </div>
-</div>
-
-        
-                   
-                    <div class="col-md-6" data-aos="fade-up">
-    <div class="card-custom rounded-4 bg-base shadow-effect">
-        <div class="card-custom-image rounded-4">
-            <img class="rounded-4" src="./assets/images/1-10.svg" alt="">
-        </div>
-        <div class="card-custom-content p-4">
-            <h4>eCommerce Customer Behavior Prediction</h4>
-            <p>Analyzed 285M+ real-world retail events using time series, ML, and deep learning. Achieved 96% accuracy using GRU, LSTM, and Transformer models to predict user actions (view, cart, purchase).</p>
-            <a href="https://github.com/Nouran246/ecommerce-customer-behavior-data" class="link-custom" target="_blank">Read More</a>
-        </div>
+    <div class="hero-metrics">
+      <div><div class="metric-val">96%</div><div class="metric-label">Best Accuracy</div></div>
+      <div><div class="metric-val">285M+</div><div class="metric-label">Events Analysed</div></div>
+      <div><div class="metric-val">Top 5</div><div class="metric-label">Microsoft Global</div></div>
+      <div><div class="metric-val">4th</div><div class="metric-label">Kaggle Rank</div></div>
     </div>
-</div>
-          <!-- Personalized Recipe Recommender -->
-          <div class="col-md-6" data-aos="fade-up">
-            <div class="card-custom rounded-4 bg-base shadow-effect">
-                <div class="card-custom-image rounded-4">
-                    <video class="video-card" autoplay muted loop>
-                        <source src="./assets/images/Chefs.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    
-                </div>
-                <div class="card-custom-content p-4">
-                    <h4>Chef's Whispers Personalized Recipe Recommender</h4>
-                    <p>AI-powered recipe generator ranked in the Top 5, built with React.js and Azure to provide personalized meal suggestions based on ingredients, dietary needs, and user preferences.</p>
+  </div>
 
-                    <a href="https://github.com/Nouran246/Personalized-Recipe-Recommender" class="link-custom" target="_blank">Read More</a>
-                </div>
-            </div>
-        </div>
-
- <!-- Fruits Recognition -->
-                    <div class="col-md-6" data-aos="fade-up">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/1.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>Fruits Recognition</h4>
-                                <p>Machine learning-based project that uses the Fruits-360 dataset to recognize and classify fruits with high accuracy.</p>
-                                <a href="https://github.com/Nouran246/Fruits-Recognition" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-        <div class="col-md-6" data-aos="fade-up">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/trumpet.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>Musical Instruments Detection</h4>
-                                <p>Deep learning-based project using spectrograms and CNN architectures (ResNet, VGG, MobileNet) to classify musical instruments from audio with high accuracy. Built using Python, TensorFlow, and Keras.</p>
-                                <a href="https://github.com/Nouran246/Musical-Instrument-Detection" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-
-<div class="col-md-6" data-aos="fade-up">
-    <div class="card-custom rounded-4 bg-base shadow-effect">
-        <div class="card-custom-image rounded-4">
-            <img class="rounded-4" src="./assets/images/5170896.png" alt="">
-        </div>
-        <div class="card-custom-content p-4">
-            <h4>Healthcare Test Results Classification</h4>
-            <p>Machine learning project using patient test data to classify normal vs. abnormal results. XGBoost achieved 88% accuracy. Includes PCA, ensemble models, and full evaluation metrics.</p>
-            <a href="https://github.com/Nouran246/Healthcare-test-results-classification-using-Machine-Learning" class="link-custom" target="_blank">Read More</a>
-        </div>
+  <div class="hero-right">
+    <!-- NEW: clean identity card replacing the cramped ornament -->
+    <div class="hero-id-card">
+      <canvas id="heroCanvas"></canvas>
+      <div class="id-inner">
+        <div class="id-overline">AI Engineer</div>
+        <div class="id-initials">NH</div>
+        <div class="id-divider"></div>
+        <div class="id-name">Fresh Graduate</div>
+        <div class="id-role">Computer Science · AI Minor · MIU 2026</div>
+        
     </div>
-</div>
 
-
-                    <div class="col-md-6" data-aos="fade-up">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/3.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>Credit Card Approval Prediction Classification</h4>
-                                <p>This project predicts the approval of credit card applications by analyzing applicant data, with preprocessing, feature selection using genetic algorithms, and classification using KNN and Decision Trees.</p>
-                                <a href="https://github.com/Nouran246/Credit-Card-Approval-Prediction-Classification" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                  
-                    <!-- Other Projects -->
-                    <div class="col-md-6" data-aos="fade-up">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/book.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>Bus Ticket Booking System</h4>
-                                <p>A Java-based Bus Ticket Booking System with role-based access for Admin, Receptionist, and Guest. This system manages vehicles, trips, bookings, and more. Designed for efficient and smooth ticket management.</p>
-                                <a href="https://github.com/Nouran246/Bus-Ticket-Booking-System" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/Habibi.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>Habibi Eats</h4>
-                                <p>Habibi Eats is a food delivery website developed as a Project Management project. It connects users to local restaurants, offering an easy-to-use platform for ordering meals with quick delivery, all while showcasing efficient project management and team collaboration.</p>
-                                <a href="https://github.com/Nouran246/Habibi-Eats" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                              
-               
-                    <div class="col-md-6" data-aos="fade-up">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/pricing.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>Housing Prices Prediction using Machine Learning</h4>
-                                <p>Developed a regression model to predict housing prices using data preprocessing, feature engineering, and various regression algorithms. Tuned hyperparameters and evaluated performance with key metrics (RMSE, MAE, R²).</p>
-                                <a href="https://github.com/Nouran246/House-Pricing-Prediction" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/b-tree.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <h4>B-Tree Using Time Trade-Space-Offs</h4>
-                                <p>This project explores optimizing B-Trees by balancing time and space complexity, focusing on trade-offs between time efficiency and memory usage in B-Tree operations. Includes a detailed research paper.</p>
-                                <a href="https://github.com/Nouran246/B-Tree-Using-Time-Trade-Space-Offs-" class="link-custom" target="_blank">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                           <!-- Other Projects -->
-                           <div class="col-md-6" data-aos="fade-up">
-                            <div class="card-custom rounded-4 bg-base shadow-effect">
-                                <div class="card-custom-image rounded-4">
-                                    <img class="rounded-4" src="./assets/images/to.png" alt="">
-                                </div>
-                                <div class="card-custom-content p-4">
-                                    <h4>Todo List using HashMap Data Structure</h4>
-                                    <p>A To-Do list app built with C++ and Qt Creator, utilizing the HashMap data structure to prioritize tasks efficiently. Supports CRUD operations and task management based on priority.</p>
-                                    <a href="https://github.com/Nouran246/Todo-List-using-HashMap-Data-Structure" class="link-custom" target="_blank">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                 
-                                    
-                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                                            <div class="card-custom-image rounded-4">
-                                                <img class="rounded-4" src="./assets/images/portal.png" alt="">
-                                            </div>
-                                            <div class="card-custom-content p-4">
-                                                <h4>University Portal GUI</h4>
-                                                <p>This project is a university portal built with C++ and WinForms, featuring role-based access for admins, students, and instructors, allowing for easy interaction and management of university data.</p>
-                                                <a href="https://github.com/Nouran246/UniversityPortal_GUI" class="link-custom" target="_blank">Read More</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                              
-                               
-
-                                    <div class="col-md-6" data-aos="fade-up">
-                                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                                            <div class="card-custom-image rounded-4">
-                                                <img class="rounded-4" src="./assets/images/images.jpg" alt="">
-                                            </div>
-                                            <div class="card-custom-content p-4">
-                                                <h4>Supermarket Project</h4>
-                                                <p>A simple supermarket management system built with C++ that handles product additions, removals, price updates, and customer interactions through a simple menu interface.</p>
-                                                <a href="https://github.com/Nouran246/Supermarket_Project" class="link-custom" target="_blank">Read More</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-        
-                </div>
-        
-            </div>
-        </section>
-        
-        <!-- //WORK -->
-
-        <!-- ABOUT -->
-        <section id="about" class="full-height px-lg-5">
-            <div class="container">
-
-                <div class="row pb-4" data-aos="fade-up">
-                    <div class="col-lg-8">
-                        <h6 class="text-brand">ABOUT</h6>
-                        <h1>Experience and Volunteering</h1>
-                    </div>
-                </div>
-
-                <div class="row gy-5">
-                    <div class="col-lg-6">
-
-                        <h3 class="mb-4" data-aos="fade-up" data-aos-delay="300">Experience</h3>
-                        <div class="row gy-4">
-
-                            <div class="col-12" data-aos="fade-up" data-aos-delay="600">
-                                <div class="bg-base p-4 rounded-4 shadow-effect">
-                                    <h4>Software Developer</h4>
-                                    <p class="text-brand mb-2">eWorx Technology Ltd. ( Oct 2024 - Present)</p>
-                                    <p class="mb-0">Designed and developed web applications using JavaScript, React.js, Node.js, and MongoDB.
-                                        Collaborated on backend integration with Meteor.js and data management, delivering responsive solutions.
-                                        </p>
-                                </div>
-                            </div>
-
-                            <div class="col-12" data-aos="fade-up" data-aos-delay="600">
-                                <div class="bg-base p-4 rounded-4 shadow-effect">
-                                    <h4>Summer Intern</h4>
-                                    <p class="text-brand mb-2">CIB Egypt (Jul 2024 - Jul 2024)</p>
-                                    <p class="mb-0">Participated in a collaborative internship focused on data literacy, digital transformation, and financial literacy, preparing for the future workplace.</p>
-                                </div>
-                            </div>
-
-                          
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-6">
-
-                        <h3 class="mb-4" data-aos="fade-up" data-aos-delay="300">Volunteering</h3>
-                        <div class="row gy-4">
-
-                            <div class="col-12" data-aos="fade-up" data-aos-delay="600">
-                                <div class="bg-base p-4 rounded-4 shadow-effect">
-                                    <h4>Student Ambassador</h4>
-                                    <p class="text-brand mb-2">Microsoft (Oct 2024 - Present)</p>
-                                    <p class="mb-0">Recognized as Beta Student Ambassador and developed a Recipe Recommendation System </p>
-                                </div>
-                            </div>
-                            <div class="col-12" data-aos="fade-up" data-aos-delay="600">
-                                <div class="bg-base p-4 rounded-4 shadow-effect">
-                                    <h4>IT Member</h4>
-                                    <p class="text-brand mb-2">ACPC Club (Oct 2024 - Present)</p>
-                                    <p class="mb-0">Working as part of the IT team to develop web applications for exciting tech projects.</p>
-                                </div>
-                            </div>
-                            <div class="col-12" data-aos="fade-up" data-aos-delay="600">
-                                <div class="bg-base p-4 rounded-4 shadow-effect">
-                                    <h4>IGV Volunteer</h4>
-                                    <p class="text-brand mb-2">AIESEC (Apr 2023 - Sep 2023)</p>
-                                    <p class="mb-0">Participated in AIESEC's International Global Volunteer (IGV) program, focusing on educational and community development projects.</p>
-                                </div>
-                            </div>
-
-                         
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
-        <!-- //ABOUT -->
-
-        <!-- REVIEWS -->
-        <section id="reviews" class="full-height px-lg-5">
-            <div class="container">
-
-                <div class="row pb-4" data-aos="fade-up">
-                    <div class="col-lg-8">
-                        <h6 class="text-brand">EDUCATIONAL</h6>
-                        <h1>Education</h1>
-                    </div>
-                </div>
-
-                <div class="row gy-5">
-                    <div class="col-lg-6">
-
-                        <h3 class="mb-4" data-aos="fade-up" data-aos-delay="300">University</h3>
-                        <div class="row gy-4">
-
-                            <div class="col-12" data-aos="fade-up" data-aos-delay="600">
-                                <div class="bg-base p-4 rounded-4 shadow-effect">
-                                    <h4>Bachelor's of Computer Science</h4>
-                                    <p class="text-brand mb-2">Misr International University (2022 - 2026)</p>
-                                    <p class="mb-0">Relevant coursework: Machine Learning ,Software Eingneering, Advanced Artificial Intelligence, Data Science, Data Structures, Algorithms, Web Development, OOP, Database, Problem Solving, Operating Systems, Image Processing.
-                                        and an Usher for the Computer Science Graduation Project Day.
-                                        </p>
-                                </div>
-                            </div>
-
-     
-                          
-
-                        </div>
-
-                    </div>
-
-                        <div class="col-lg-6">
-    
-                            <h3 class="mb-4" data-aos="fade-up" data-aos-delay="300">School</h3>
-                            <div class="row gy-4">
-    
-                                <div class="col-12" data-aos="fade-up" data-aos-delay="600">
-                                    <div class="bg-base p-4 rounded-4 shadow-effect">
-                                        <h4>General Secondary Education Certificate</h4>
-                                        <p class="text-brand mb-2">The Egyptian Language School (2008 - 2022)</p>
-                                        <p class="mb-0">Scientific Section — Graduated with a score of 80%. Later pursued a degree in Computer Science to explore my passion for technology and programming.</p>
-                                            </p>
-                                    </div>
-                                </div>
-    
-         
-                              
-    
-                            </div>
-    
-                        </div>
-
-                </div>
-
-            </div>
-        </section>
-        <!-- //REVIEWS -->
-
-        <!-- BLOG -->
-        <section id="blog" class="full-height px-lg-5">
-            <div class="container">
-
-                <div class="row pb-4" data-aos="fade-up">
-                    <div class="col-lg-8">
-                        <h6 class="text-brand">CERTIFICATES</h6>
-                        <h1>My Certificates</h1>
-                    </div>
-                </div>
-
-                <div class="row gy-4">
-                    <!-- Card 1 -->
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="900">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/beta.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <p class="text-brand mb-2">March, 2025</p>
-                                <h5 class="mb-4">Beta Microsoft Student Ambassador</h5>
-                                <a href="https://mvp.microsoft.com/studentambassadors/certificate/0d3e82f5-4c2c-42a8-b063-e5ff290dc8f5" class="link-custom">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" data-aos="fade-up">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/111.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <p class="text-brand mb-2">Dec, 2024</p>
-                                <h5 class="mb-4">Goethe-Zertifikat B1</h5>
-                                <a href="https://www.linkedin.com/in/nouran-hafez-907311283/details/certifications/" class="link-custom">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" data-aos="fade-up">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/ibm capstone.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <p class="text-brand mb-2">Feb, 2025</p>
-                                <h5 class="mb-4">
-                                    Artificial Intelligence Fundamentals with Capstone Project</h5>
-                                <a href="https://www.credly.com/badges/f2fcb9f9-a830-4b7e-9589-d02d187e6aad/linked_in_profile" class="link-custom">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                        <!-- Card 1 -->
-                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="900">
-                            <div class="card-custom rounded-4 bg-base shadow-effect">
-                                <div class="card-custom-image rounded-4">
-                                    <img class="rounded-4" src="./assets/images/lead.png" alt="">
-                                </div>
-                                <div class="card-custom-content p-4">
-                                    <p class="text-brand mb-2">March, 2025</p>
-                                    <h5 class="mb-4">Student Ambassador Team Lead</h5>
-                                    <a href="https://www.credly.com/badges/f528b43b-9170-4a6a-93da-94ccaa282363/linked_in_profile" class="link-custom">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                  <!-- Card 1 -->
-                  <div class="col-md-6" data-aos="fade-up">
-                    <div class="card-custom rounded-4 bg-base shadow-effect">
-                        <div class="card-custom-image rounded-4">
-                            <img class="rounded-4" src="./assets/images/ibm.png" alt="">
-                        </div>
-                        <div class="card-custom-content p-4">
-                            <p class="text-brand mb-2">Feb, 2025</p>
-                            <h5 class="mb-4">
-                                Artificial Intelligence Fundamentals</h5>
-                            <a href="https://www.credly.com/badges/c84ed223-d0c1-4eb7-b608-295424120adf/linked_in_profile" class="link-custom">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                    <!-- Card 2 -->
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/2.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <p class="text-brand mb-2">Sep, 2024</p>
-                                <h5 class="mb-4">Supervised Machine Learning: Regression and Classification</h5>
-                                <a href="https://www.coursera.org/account/accomplishments/verify/7TY48Q7RJ229" class="link-custom">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <!-- Card 3 -->
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="600">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/14.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <p class="text-brand mb-2">Jul, 2024</p>
-                                <h5 class="mb-4">Getting Started with Deep Learning</h5>
-                                <a href="https://learn.nvidia.com/certificates?id=CJYVB3SkRFK1KZHSpHcJuA" class="link-custom">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <!-- Card 4 -->
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="900">
-                        <div class="card-custom rounded-4 bg-base shadow-effect">
-                            <div class="card-custom-image rounded-4">
-                                <img class="rounded-4" src="./assets/images/22.png" alt="">
-                            </div>
-                            <div class="card-custom-content p-4">
-                                <p class="text-brand mb-2">Oct, 2024</p>
-                                <h5 class="mb-4">Alpha Microsoft Student Ambassador</h5>
-                                <a href="https://mvp.microsoft.com/studentambassadors/certificate/0d3e82f5-4c2c-42a8-b063-e5ff290dc8f5" class="link-custom">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-        </section>
-        <!-- //BLOG -->
-
-        <!-- CONTACT -->
-        <section id="contact" class="full-height px-lg-5">
-            <div class="container">
-
-                <div class="row justify-content-center text-center">
-                    <div class="col-lg-8 pb-4" data-aos="fade-up">
-                        <h6 class="text-brand">CONTACT</h6>
-                        <h1>Interested in working together? Let's talk
-                        </h1>
-                    </div>
-
-                    <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
-                        <a href="https://www.linkedin.com/in/nouran-hafez-907311283/" class="btn btn-brand" target="_blank">Connect with Me on LinkedIn</a>
-                    </div>
-                </div>
-
-
-            </div>
-        </section>
-        <!-- //CONTACT -->
-
-        <!-- FOOTER -->
-        <footer class="py-5 px-lg-5">
-            <div class="container">
-                <div class="row gy-4 justify-content-between">
-                    <div class="col-auto">
-                        <p class="mb-0">Designed by <a href="#" class="fw-bold">Nouran Hassan</a></p>
-                    </div>
-                    <div class="col-auto">
-                        <div class="social-icons">
-  
-                            <a href="https://github.com/Nouran246"><i class="lab la-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- //FOOTER -->
-
+    <div class="hero-cards">
+      <div class="hcard"><div class="hcard-val">IEEE</div><div class="hcard-label">Published Researcher</div></div>
+      <div class="hcard"><div class="hcard-val">Beta</div><div class="hcard-label">MS Ambassador</div></div>
+      <div class="hcard"><div class="hcard-val">ISF</div><div class="hcard-label">Ministry Funded</div></div>
+      <div class="hcard"><div class="hcard-val">3+</div><div class="hcard-label">Years Building</div></div>
     </div>
-    <!-- //CONTENT WRAPPER -->
+  </div>
+</section>
 
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-head reveal"><span class="sec-num">01</span><h2 class="sec-title">About Me</h2><div class="sec-line"></div></div>
+  <div class="about-wrap">
+    <div class="about-text reveal">
+      <p>I'm <strong>Nouran Hassan Hafez</strong> — a final-year Computer Science student at Misr International University with a minor in Artificial Intelligence. I don't just study AI; I build production-grade systems with it.</p>
+      <p>My graduation project, <strong>Glucora</strong>, is funded by the Ministry of Scientific Research — a real AI medical platform for continuous glucose monitoring and automated insulin delivery. My <strong>IEEE-published research</strong> on e-commerce behaviour prediction analysed 285 million events and reached 96% accuracy.</p>
+      <p>I ranked <strong>Top 5 globally</strong> at Microsoft's MLSA Demo Day, worked as a software developer for a Canadian tech firm, and hold certifications from Stanford, IBM, NVIDIA, and Oracle.</p>
+      <div class="highlight-box">
+        <p>"I bring the rare combination of deep ML research expertise and full-stack engineering — I can take an idea from a Jupyter notebook all the way to a deployed, production mobile app."</p>
+      </div>
+      <div class="lang-row">
+        <span class="lang-badge native">Arabic — Native</span>
+        <span class="lang-badge">English — Fluent</span>
+        <span class="lang-badge">German — B1</span>
+      </div>
+    </div>
+    <div class="skills-wrap reveal d2">
+      <div><div class="skill-group-title">AI & Machine Learning</div><div class="skill-pills"><span class="pill">GRU / LSTM</span><span class="pill">Transformers</span><span class="pill">CNNs</span><span class="pill">XGBoost</span><span class="pill">LangChain</span><span class="pill">Azure OpenAI</span><span class="pill">OpenRouter</span><span class="pill">Time-Series</span><span class="pill">Transfer Learning</span></div></div>
+      <div><div class="skill-group-title">Languages</div><div class="skill-pills"><span class="pill">Python</span><span class="pill">JavaScript</span><span class="pill">Dart</span><span class="pill">C++</span><span class="pill">Java</span><span class="pill">SQL</span></div></div>
+      <div><div class="skill-group-title">Frameworks & Platforms</div><div class="skill-pills"><span class="pill">Flutter</span><span class="pill">React.js</span><span class="pill">Node.js</span><span class="pill">Flask</span><span class="pill">Supabase</span><span class="pill">MongoDB</span><span class="pill">PostgreSQL</span><span class="pill">Azure</span><span class="pill">Oracle Cloud</span></div></div>
+    </div>
+  </div>
+</section>
 
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-head reveal"><span class="sec-num">02</span><h2 class="sec-title">Experience</h2><div class="sec-line"></div></div>
+  <p class="sec-sub reveal">Every role sharpened a different edge — research, engineering, finance, and global leadership.</p>
+  <div class="exp-layout">
+    <div class="reveal">
+      <div class="exp-col-title">Work</div>
+      <div class="exp-card">
+        <div class="exp-role">Microsoft Learn Student Ambassador</div>
+        <div class="exp-where">Microsoft · Remote · Oct 2024 – Present</div>
+        <div class="exp-body">Competitively selected globally as a Beta MLSA. Built an AI Recipe Recommendation System (Azure OpenAI + LangChain) ranked <strong style="color:var(--gold2)">Top 5 globally</strong> at Demo Day — presented live to 100+ attendees and featured in an official Microsoft blog post.</div>
+        <div class="exp-badges"><span class="exp-badge">Top 5 Global</span><span class="exp-badge">Azure OpenAI</span><span class="exp-badge">Microsoft Blog</span></div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-role">Software Developer</div>
+        <div class="exp-where">eWorx Technology Ltd. · Edmonton, Canada · Oct 2024 – Mar 2025</div>
+        <div class="exp-body">Built and shipped full-stack web applications for Canadian clients using React.js, Meteor.js, Node.js, and MongoDB. Integrated third-party APIs and handled backend architecture end-to-end.</div>
+        <div class="exp-badges"><span class="exp-badge">React.js</span><span class="exp-badge">Node.js</span><span class="exp-badge">MongoDB</span></div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-role">Summer Intern</div>
+        <div class="exp-where">Commercial Bank of Egypt (CIB) · Cairo · Jul 2024</div>
+        <div class="exp-body">Immersed in Egypt's leading private bank — focused on data literacy, digital transformation, and financial technology at enterprise scale.</div>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="exp-col-title">Volunteering</div>
+      <div class="exp-card">
+        <div class="exp-role">IT Member</div>
+        <div class="exp-where">ACPC · Cairo · Oct 2024 – Present</div>
+        <div class="exp-body">Building web applications and technical infrastructure for university-level competitive programming events and tech competitions.</div>
+        <div class="exp-badges"><span class="exp-badge">Web Dev</span><span class="exp-badge">Tech Events</span></div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-role">IGV Volunteer</div>
+        <div class="exp-where">AIESEC · May – Sep 2023</div>
+        <div class="exp-body">Selected for AIESEC's International Global Volunteer programme. Organised community development projects, promoted international exchange, and built global leadership skills alongside peers from multiple countries.</div>
+        <div class="exp-badges"><span class="exp-badge">Leadership</span><span class="exp-badge">Global Program</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="./assets/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/js/aos.js"></script>
-    <script src="./assets/js/main.js"></script>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-head reveal"><span class="sec-num">03</span><h2 class="sec-title">Projects</h2><div class="sec-line"></div></div>
+  <p class="sec-sub reveal">Awarded, published, and shipped — building things that actually matter.</p>
+  <div class="proj-featured reveal">
+    <div class="proj featured">
+      <div class="proj-media"><video autoplay muted loop playsinline><source src="./assets/images/Glucora video without sound.mp4" type="video/mp4"></video><div class="proj-media-overlay"></div></div>
+      <div class="proj-body">
+        <span class="proj-num">01 — Graduation Project</span>
+        <div class="proj-award">★ Ministry of Scientific Research Funded · ISF</div>
+        <h3 class="proj-name">Glucora — AI Continuous Glucose Monitoring & Automated Insulin Delivery</h3>
+        <p class="proj-desc">My most important project. An end-to-end AI medical platform: GRU/LSTM/HMM pipeline for 30-minute blood glucose prediction, production Flutter app with multi-role access, real-time AI clinical recommendations, automated insulin delivery, multilingual support across 7 languages, and a 23-table PostgreSQL backend with row-level security.</p>
+        <div class="proj-tags"><span class="proj-tag">Flutter</span><span class="proj-tag">Supabase</span><span class="proj-tag">GRU/LSTM</span><span class="proj-tag">OpenRouter</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">Python</span></div>
+      </div>
+    </div>
+    <div class="proj">
+      <div class="proj-media"><video autoplay muted loop playsinline><source src="./assets/images/Chefs.mp4" type="video/mp4"></video><div class="proj-media-overlay"></div></div>
+      <div class="proj-body">
+        <span class="proj-num">02</span>
+        <div class="proj-award">★ Top 5 Globally · Microsoft Demo Day</div>
+        <h3 class="proj-name">Chef's Whispers — AI Recipe Recommender</h3>
+        <p class="proj-desc">Azure OpenAI + LangChain recipe system. Presented live to 100+ attendees, featured in a Microsoft blog. React.js + Azure Functions full-stack.</p>
+        <div class="proj-tags"><span class="proj-tag">Azure OpenAI</span><span class="proj-tag">LangChain</span><span class="proj-tag">React.js</span></div>
+        <a href="https://github.com/Nouran246/Personalized-Recipe-Recommender" target="_blank" class="proj-link">GitHub</a>
+      </div>
+    </div>
+  </div>
+  <div class="proj-row reveal">
+    <div class="proj">
+      <div class="proj-media"><video autoplay muted loop playsinline><source src="./assets/images/1.mp4" type="video/mp4"></video><div class="proj-media-overlay"></div></div>
+      <div class="proj-body">
+        <span class="proj-num">03</span>
+        <div class="proj-award">★ 3rd Place · Best Web Dev</div>
+        <h3 class="proj-name">SoundSpot Music Platform</h3>
+        <p class="proj-desc">Full Spotify-inspired streaming platform with playlists, chatbot, and admin dashboard. Node.js + MongoDB MVC architecture.</p>
+        <div class="proj-tags"><span class="proj-tag">Node.js</span><span class="proj-tag">MongoDB</span></div>
+        <a href="https://github.com/Nouran246/SoundSpot-Music-Web-Application" target="_blank" class="proj-link">GitHub</a>
+      </div>
+    </div>
+    <div class="proj">
+      <div class="proj-media"><video autoplay muted loop playsinline><source src="./assets/images/vid.mp4" type="video/mp4"></video><div class="proj-media-overlay"></div></div>
+      <div class="proj-body">
+        <span class="proj-num">04</span>
+        <h3 class="proj-name">MegaMinds Course Recommender</h3>
+        <p class="proj-desc">Academic programme recommendations based on student interests and performance using collaborative and content-based filtering.</p>
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">ML</span><span class="proj-tag">React.js</span></div>
+        <a href="https://github.com/Nouran246/MegaMinds-Course-Recommendation-System" target="_blank" class="proj-link">GitHub</a>
+      </div>
+    </div>
+    <div class="proj">
+      <div class="proj-media"><img src="./assets/images/1-10.svg" alt="eCommerce"><div class="proj-media-overlay"></div></div>
+      <div class="proj-body">
+        <span class="proj-num">05</span>
+        <h3 class="proj-name">eCommerce Behaviour Prediction</h3>
+        <p class="proj-desc">285M+ events. GRU & Transformer models. 96% accuracy. The research behind my IEEE paper.</p>
+        <div class="proj-tags"><span class="proj-tag">GRU</span><span class="proj-tag">Transformers</span><span class="proj-tag">Python</span></div>
+        <a href="https://github.com/Nouran246/ecommerce-customer-behavior-data" target="_blank" class="proj-link">GitHub</a>
+      </div>
+    </div>
+  </div>
+  <div class="proj-row2 reveal">
+    <div class="proj">
+      <div class="proj-media"><img src="./assets/images/trumpet.png" alt="Musical Instruments"><div class="proj-media-overlay"></div></div>
+      <div class="proj-body">
+        <span class="proj-num">06</span>
+        <h3 class="proj-name">Musical Instrument Detection</h3>
+        <p class="proj-desc">5 CNN architectures on audio spectrograms. 98% accuracy via transfer learning and fine-tuning. GoogLeNet & MobileNet best performers.</p>
+        <div class="proj-tags"><span class="proj-tag">TensorFlow</span><span class="proj-tag">CNNs</span><span class="proj-tag">Transfer Learning</span></div>
+        <a href="https://github.com/Nouran246/Musical-Instrument-Detection" target="_blank" class="proj-link">GitHub</a>
+      </div>
+    </div>
+    <div class="proj">
+      <div class="proj-media"><img src="./assets/images/5170896.png" alt="Healthcare"><div class="proj-media-overlay"></div></div>
+      <div class="proj-body">
+        <span class="proj-num">07</span>
+        <div class="proj-award">★ 4th Place · Kaggle</div>
+        <h3 class="proj-name">Healthcare Test Results Classification</h3>
+        <p class="proj-desc">XGBoost at 88% accuracy classifying normal vs. abnormal test results. Full PCA, ensemble, and hyperparameter tuning pipeline.</p>
+        <div class="proj-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">PCA</span><span class="proj-tag">Scikit-learn</span></div>
+        <a href="https://github.com/Nouran246/Healthcare-test-results-classification-using-Machine-Learning" target="_blank" class="proj-link">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="sec-head reveal"><span class="sec-num">04</span><h2 class="sec-title">Research</h2><div class="sec-line"></div></div>
+  <div class="research-card reveal">
+    <div>
+      <div class="research-label">IEEE Peer-Reviewed · Team Lead</div>
+      <h3 class="research-title">E-Commerce Customer Behaviour Prediction</h3>
+      <p class="research-body">Led a research team analysing ~285 million real-world e-commerce event sequences to predict user actions over time — view, add-to-cart, purchase. Benchmarked Random Forest, XGBoost, LSTM, GRU, Transformer, and TCN models with full hyperparameter tuning. GRU and Transformer architectures achieved 96% accuracy, outperforming all ML baselines.</p>
+    </div>
+    <div class="research-metrics">
+      <div class="rm"><div class="rm-val">96%</div><div class="rm-label">Best Accuracy</div></div>
+      <div class="rm"><div class="rm-val">285M</div><div class="rm-label">Events Analysed</div></div>
+      <div class="rm"><div class="rm-val">6</div><div class="rm-label">Models Benchmarked</div></div>
+      <div class="rm"><div class="rm-val">IEEE</div><div class="rm-label">Publication</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-head reveal"><span class="sec-num">05</span><h2 class="sec-title">Education</h2><div class="sec-line"></div></div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-school">Misr International University</div>
+      <div class="edu-degree">Bachelor of Computer Science</div>
+      <div class="edu-minor">Minor in Artificial Intelligence</div>
+      <div class="edu-year">2022 – Expected June 2026 · Cairo, Egypt</div>
+      <div class="edu-detail">Advanced AI · Machine Learning · NLP · AI Agents · Data Science · Software Engineering · Data Structures & Algorithms · Mobile & Web Dev · Database Systems · Image Processing · Knowledge Representation & Reasoning</div>
+      <div class="edu-watermark">MIU</div>
+    </div>
+    <div class="edu-card reveal d2">
+      <div class="edu-school">The Egyptian Language School</div>
+      <div class="edu-degree">General Secondary Certificate</div>
+      <div class="edu-minor">Scientific Section — 80%</div>
+      <div class="edu-year">2008 – 2022 · Cairo, Egypt</div>
+      <div class="edu-detail">Graduated from the scientific section with 80%. Went on to pursue Computer Science to channel a lifelong passion for technology and problem-solving into a career.</div>
+      <div class="edu-watermark">ELS</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="certs-title">Certificates & Credentials</div>
+    <div class="certs-grid">
+      <a href="https://mvp.microsoft.com/studentambassadors/certificate/0d3e82f5-4c2c-42a8-b063-e5ff290dc8f5" target="_blank" class="cert"><div class="cert-org">Microsoft</div><div class="cert-name">Beta Student Ambassador</div><div class="cert-date">Mar 2025</div></a>
+      <a href="#" class="cert"><div class="cert-org">Oracle</div><div class="cert-name">OCI 2025 Generative AI Professional</div><div class="cert-date">2025</div></a>
+      <a href="#" class="cert"><div class="cert-org">Oracle</div><div class="cert-name">OCI 2025 AI Foundations Associate</div><div class="cert-date">2025</div></a>
+      <a href="https://www.credly.com/badges/f2fcb9f9-a830-4b7e-9589-d02d187e6aad" target="_blank" class="cert"><div class="cert-org">IBM</div><div class="cert-name">AI Fundamentals with Capstone Project</div><div class="cert-date">Feb 2025</div></a>
+      <a href="https://www.coursera.org/account/accomplishments/verify/7TY48Q7RJ229" target="_blank" class="cert"><div class="cert-org">Stanford / DeepLearning.AI</div><div class="cert-name">Supervised ML: Regression & Classification</div><div class="cert-date">Sep 2024</div></a>
+      <a href="https://learn.nvidia.com/certificates?id=CJYVB3SkRFK1KZHSpHcJuA" target="_blank" class="cert"><div class="cert-org">NVIDIA</div><div class="cert-name">Getting Started with Deep Learning</div><div class="cert-date">Jul 2024</div></a>
+      <a href="https://www.linkedin.com/in/nouran-hafez-907311283/details/certifications/" target="_blank" class="cert"><div class="cert-org">Goethe-Institut</div><div class="cert-name">Goethe-Zertifikat B1 — German</div><div class="cert-date">Dec 2024</div></a>
+      <a href="https://www.credly.com/badges/f528b43b-9170-4a6a-93da-94ccaa282363" target="_blank" class="cert"><div class="cert-org">Microsoft</div><div class="cert-name">Student Ambassador Team Lead</div><div class="cert-date">Mar 2025</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-bg"></div>
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <p class="big">Ready to build something <em>extraordinary?</em></p>
+      <p>I'm actively looking for full-time AI and software engineering roles. I bring IEEE-level research depth, production-grade engineering, and the drive to make things that actually matter. Let's talk.</p>
+      <div class="availability">Open to opportunities</div>
+    </div>
+    <div class="contact-right reveal d2">
+      <a href="mailto:nouran.hassan.hafez@gmail.com" class="clink"><div><span class="clink-lbl">Email</span><span class="clink-val">nouran.hassan.hafez@gmail.com</span></div><span class="clink-arr">↗</span></a>
+      <a href="https://www.linkedin.com/in/nouran-hafez-907311283/" target="_blank" class="clink"><div><span class="clink-lbl">LinkedIn</span><span class="clink-val">nouran-hafez-907311283</span></div><span class="clink-arr">↗</span></a>
+      <a href="https://github.com/Nouran246" target="_blank" class="clink"><div><span class="clink-lbl">GitHub</span><span class="clink-val">Nouran246</span></div><span class="clink-arr">↗</span></a>
+      <a href="tel:+201129869494" class="clink"><div><span class="clink-lbl">Phone</span><span class="clink-val">+20 112 986 9494</span></div><span class="clink-arr">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <span>Nouran Hassan Hafez</span> · Cairo, Egypt</p>
+  <p>Built with <span>♥</span> · CS + AI · MIU 2026</p>
+</footer>
+
+<script>
+const cur=document.getElementById('cursor'),ring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.13;ry+=(my-ry)*0.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+document.querySelectorAll('a,button,.proj,.cert,.rm,.pill').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='38px';ring.style.height='38px';});
+});
+
+const ham=document.getElementById('ham'),nav=document.getElementById('navLinks');
+ham.addEventListener('click',()=>nav.classList.toggle('open'));
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+(function(){
+  const canvas=document.getElementById('heroCanvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;
+    H=canvas.height=canvas.offsetHeight;
+    if(W===0||H===0)return;
+    init();
+  }
+
+  function init(){
+    particles=[];
+    const count=Math.floor((W*H)/6000);
+    for(let i=0;i<count;i++){
+      particles.push({
+        x:Math.random()*W, y:Math.random()*H,
+        vx:(Math.random()-0.5)*0.35, vy:(Math.random()-0.5)*0.35,
+        r:Math.random()*1.6+0.4,
+        alpha:Math.random()*0.45+0.15,
+        pulse:Math.random()*Math.PI*2
+      });
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const maxDist=100;
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<maxDist){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=`rgba(212,160,60,${(1-dist/maxDist)*0.2})`;
+          ctx.lineWidth=0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    particles.forEach(p=>{
+      p.pulse+=0.016;
+      const a=p.alpha*(0.6+0.4*Math.sin(p.pulse));
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(247,210,130,${a})`; ctx.fill();
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  const ro=new ResizeObserver(()=>resize());
+  ro.observe(canvas.parentElement);
+  resize();
+  requestAnimationFrame(draw);
+})();
+</script>
 </body>
-
 </html>
